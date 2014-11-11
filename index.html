@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<!-- PROTOTYPE NOTES
+
+		[5th November 2014]
+
+		<https://speakerdeck.com/andyhume/web-fonts-as-a-progressive-enhancement-ampersand-2013>
+
+		Font requirements 
+		= Never block rendering
+		= Avoid flash of fallback font
+		= Compress and subset fonts as much as possible
+		= Reduce HTTP requests to as few as possible
+		= Cache as agressively as browsers allow
+
+		Websites do not need to look the same in every browser
+
+		http caching is vital, localstorage works
+
+		Modern browser, supporting WOFF, with local storage available then display fonts, otherwise dont.
+		====> what are the support guidelines and mobile implications of this?
+
+		[6th November 2014]
+
+		I am coming to the conclusion that we should be using progressive enhancement for fonts, things dont need to look the same in every browser, and specifically since the fallback is so close. I think we should be targetting only A grade browsers, which means using WOFF and base 64 encoding may well be ok, since they are IE9 and up.
+
+		http://www.gorges.us/blog/google-fonts
+		- getting woff format and using it
+
+		http://www.fontsquirrel.com/tools/webfont-generator
+		- font generator to different formats!
+
+		https://github.com/typekit/webfontloader
+		- using this, browser support here https://github.com/typekit/webfontloader#browser-support
+
+		https://github.com/typekit/webfontloader#events
+		.wf-loading
+		.wf-active
+		.wf-inactive
+
+		font seems to reload even when you refresh the page, not just on force refresh.
+
+		Moving to s3 from Dropbox in order to test far future cache expires headers
+
+		base 64 encoding can be done here http://software.hixie.ch/utilities/cgi/data/data
+
+		set far future expire headers in s3 
+		cache headers here: https://console.aws.amazon.com/s3/home?region=us-east-1#
+		max-age=15778463
+
+		moved the script back to the head and its much snappier
+	-->
+
+	<title>Fonts [Nov 5th 2014]</title>
+
+
+	<style>
+		body {
+			font-family: helvetica, sans-serif;
+		}
+		.wf-active body.benton {
+			font-family: "Benton Sans", helvetica, sans-serif;
+		}
+
+	</style>
+
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+
+		<script type="text/javascript">
+			var WebFontConfig = WebFont.load({
+				custom: {
+					families: ['Benton Sans:n4,i4,n7'],
+					urls: ['fonts.css']
+				}
+			});
+
+			// var s = document.createElement('script');
+			// s.src = '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
+			// document.head.appendChild(s);
+		</script>
+
+</head>
+
+<!-- .benton-loading .benton-loaded -->
+<body class="benton">
+	<h1>This is a heading</h1>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+
+	
+</body>
+</html>
