@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+ 
+
+	<title>Fonts [Nov 11th 2014]</title>
+
+	<script type="text/javascript">
+
+		window.EB = window.EB || {};
+		EB.setFont = function(base64_font) {
+			var style = document.createElement('style');
+			var text = (
+				"@font-face {" +
+				"	font-family: 'Turtle Handwriting';" +
+				"	font-weight: normal;" + 
+				"	font-style: normal;" + 
+				"	src: url(" +  base64_font + ") format('woff');" +
+				"}"
+			);
+			style.innerHTML = text;
+
+			document.getElementsByTagName('head')[0].appendChild(style);
+
+		};
+
+		if (window.localStorage) {
+			(function(){
+				var font = localStorage.getItem('turtle');
+				if (font) {
+					EB.setFont(font);
+				} else {
+					var script = document.createElement('script');
+					script.src = "fonts3.js.zip";
+					document.getElementsByTagName('head')[0].appendChild(script);
+				}
+			})();
+		}
+	</script>
+
+	<style type="text/css">
+		body.turtle {
+			font-family: "Turtle Handwriting", helvetica, sans-serif;
+		}
+	</style>
+
+</head>
+
+<!-- .benton-loading .benton-loaded -->
+<body class="turtle">
+	<h1>This is a heading</h1>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  
+</body>
+</html>

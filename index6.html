@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+    <title>Fonts [Nov 11th 2014]</title>
+
+    <script type="text/javascript">
+
+        //s cope the global variables to Eventbrite rather than to window
+        window.EB = window.EB || {};
+        EB.renderFonts = function(fonts) {
+
+        // base64:
+        // family: 'Benton Sans',
+        // weight: '400',
+        // style: 'italic'
+            // expects a list of things with a base64_font, a font_family and font_weight and font_style
+
+            var style = document.createElement('style');
+            var fontRules = "";
+
+            for (var i = 0, font; font = fonts[i]; i++) {
+                // for every font, cycle through and create font rules
+                fontRules += (
+                    "@font-face {" +
+                    "   font-family: '" + font.family + "';" +
+                    "   font-weight: " + font.weight + ";" +
+                    "   font-style: " + font.style +";" +
+                    "   src: url(data:application/font-woff;base64," +  font.base64 + ") format('woff');" +
+                    "}\n"
+                );
+            }
+
+            //
+            style.innerHTML = fontRules;
+            document.getElementsByTagName('head')[0].appendChild(style);
+            document.documentElement.className += ' font-has-loaded';
+        };
+
+        if (window.localStorage) {
+            (function(){
+
+                var fonts = JSON.parse(localStorage.getItem('fonts'));
+
+                if (fonts) {
+
+                    // if the font is already stored in localstorage then render the fonts
+                    EB.renderFonts(fonts);
+
+                } else {
+
+                    // by default try and render the font
+                    EB.customFontsEnabled = true;
+
+                    // asynchronously load the javascript
+                    var script = document.createElement('script');
+                    script.src = "fonts6.js";
+                    document.getElementsByTagName('head')[0].appendChild(script);
+
+                    // if the font takes more than 3000ms (3 seconds) to load then don't load it this time and just keep trying to get it in local storage but dont do the flash to the new font
+                    setTimeout( function() {
+                        customFontsEnabled = false;
+                    }, 3000);
+
+                }
+            })();
+        }
+    </script>
+
+    <style type="text/css">
+        body {
+            /* standard */
+            font-family: "Benton Sans", helvetica, sans-serif;
+        }
+
+        .bentonsans {
+            /* fallback during load of font ?? */
+            font-family: Avenir, Roboto, "Helvetica Neue", Helvetica, Arial, sans serif;
+        }
+
+        .font-has-loaded .bentonsans {
+            /* ideal size and state for font */
+            font-family: "Benton Sans", Avenir, Roboto, "Helvetica Neue", Helvetica, Arial, sans serif;
+        }
+
+        .text-heading-mega {
+            font-size: 65px;
+            line-height: 70px;
+            font-weight: 700;
+            color: #030303;
+        }
+
+        .text-heading-epic {
+            font-size: 45px;
+            line-height: 50px;
+            font-weight: 700;
+            color: #030303;
+        }
+
+        .text-heading-primary {
+            font-size: 35px;
+            line-height: 40px;
+            font-weight: 700;
+            color: #030303;
+        }
+
+        .text-heading-secondary {
+            font-size: 25px;
+            line-height: 40px;
+            font-weight: 400;
+            color: #636363;
+        }
+
+        .text-heading-tertiary {
+            font-size: 20px;
+            line-height: 25px;
+            font-weight: 400;
+            color: #636363;
+        }
+
+        .text-body {
+            font-size: 15px;
+            line-height: 25px;
+            color: #636363;
+        }
+
+        .label {
+            font-size: 12px;
+            line-height: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #030303;
+        }
+
+        .supplementary {
+            font-size: 12px;
+            line-height: 15px;
+            font-weight: 400;
+            color: #acacbf;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+    </style>
+
+</head>
+
+<body class="bentonsans">
+    <h1 class="text-heading-mega">Typography</h1>
+    <h2 class="text-heading-mega">Mega</h2>
+    <h2 class="text-heading-epic">Epic</h2>
+    <h2 class="text-heading-primary">Primary</h2>
+    <h2 class="text-heading-secondary">Secondary</h2>
+    <h2 class="text-heading-tertiary">Tertiary</h2>
+    <p class="text-body">Body</p>
+    <label class="label">Label</label>
+    <p class="supplementary">Supplementary</p>
+</body>
+</html>

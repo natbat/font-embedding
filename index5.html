@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html> 
+<head>
+
+ 
+
+	<title>Fonts [Nov 11th 2014]</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript">
+
+		//s cope the global variables to Eventbrite rather than to window
+		window.EB = window.EB || {};
+		EB.renderFonts = function(fonts) {
+
+		// base64: 
+		// family: 'Turtle Handwriting',
+		// weight: '400',
+		// style: 'italic'
+			// expects a list of things with a base64_font, a font_family and font_weight and font_style
+
+			var style = document.createElement('style');
+			var fontRules = "";
+
+			for (var i = 0, font; font = fonts[i]; i++) {
+				// for every font, cycle through and create font rules
+				fontRules += (
+					"@font-face {" +
+					"	font-family: '" + font.family + "';" +
+					"	font-weight: " + font.weight + ";" + 
+					"	font-style: " + font.style +";" + 
+					"	src: url(data:application/font-woff;base64," +  font.base64 + ") format('woff');" +
+					"}\n" 
+				);
+			}
+
+			// 
+			style.innerHTML = fontRules;
+			document.getElementsByTagName('head')[0].appendChild(style);
+			document.documentElement.className += ' font-has-loaded';
+		};
+
+		if (window.localStorage) {
+			(function(){
+
+				var fonts = JSON.parse(localStorage.getItem('fonts'));
+
+				if (fonts) {
+
+					// if the font is already stored in localstorage then render the fonts
+					EB.renderFonts(fonts);
+
+				} else {
+
+					// by default try and render the font
+					EB.customFontsEnabled = true;
+
+					// asynchronously load the javascript
+					var script = document.createElement('script');
+					script.src = "fonts5.js";
+					document.getElementsByTagName('head')[0].appendChild(script);
+
+					// if the font takes more than 3000ms (3 seconds) to load then don't load it this time and just keep trying to get it in local storage but dont do the flash to the new font
+					setTimeout( function() {
+						EB.customFontsEnabled = false;
+					}, 3000);
+
+				}
+			})();
+		}
+	</script>
+
+	<style type="text/css">
+		body {
+			/* standard */
+			font-family: "Turtle Handwriting", helvetica, sans-serif;
+		}
+		body.turtle {
+			/* fallback during load of font ?? */
+			font-family: helvetica, sans-serif;
+		}
+		.font-has-loaded body.turtle {
+			/* ideal size and state for font */
+			font-family: "Turtle Handwriting", helvetica, sans-serif;
+		}
+	</style>
+
+</head>
+
+<body class="turtle">
+	<h1>This is a heading</h1>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  
+</body>
+</html>
